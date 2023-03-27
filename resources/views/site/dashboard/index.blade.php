@@ -97,7 +97,7 @@
     </script>
     <script>
         data = [];
-        @foreach ($rows as $key => $row)
+        @foreach ($rows ?? [] as $key => $row)
             data.push([
                 '{{$key + 1}}',
                 '{{$row->name}}',
