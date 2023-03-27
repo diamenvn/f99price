@@ -1,0 +1,183 @@
+$headerHeight: 65px
+$headerBgColor: #fff
+$sidebarWidth: 220px
+$sidebarBgColor: #233031
+
+.wrapper__admin
+    height: 100vh
+    display: flex
+    flex-wrap: wrap
+    flex-direction: column
+    font-family: 'Roboto', sans-serif
+    .header
+        background: $headerBgColor
+        width: 100%
+        height: $headerHeight
+        box-shadow: unset
+        border-bottom: 1px solid rgba(0,0,0,0.1)
+        padding: 8px 10px 0px 10px
+        .search
+            color: #888
+            .icon
+                position: absolute
+                left: 13px
+                font-size: 12px
+            input
+                padding-left: 30px
+            .input
+                min-width: 280px
+    .header__navigation
+        color: #aaa
+        font-size: 11px
+        display: flex
+        margin-top: 5px
+        .header__navigation__item
+            text-transform: uppercase
+            margin: 0px 10px
+            padding: 5px 0px
+            border-bottom: 2px solid transparent
+            cursor: pointer
+            &.active, &:hover
+                color: #0bba88
+                border-bottom-color: #0bba88
+
+    .header__logo
+        color: #444
+        font-size: 18px
+        font-weight: bold
+        opacity: 0.8
+        &:hover
+            opacity: 1
+    .page__filter
+        border-bottom: 1px solid rgba(0,0,0,0.1)
+    .sidebar__account
+        padding: 10px
+        box-sizing: border-box
+        .image
+            width: 30px
+            height: 30px
+            img
+                border-radius: 50%
+                width: 100%
+        .account
+            padding: 0px 10px
+            .account__name
+                font-size: 14px
+                color: white
+                font-weight: 500
+            .account__role
+                color: rgba(255,255,255,0.3)
+                font-size: 12px
+    .sidebar__search
+        padding: 5px 15px
+        .input
+            border-radius: 20px
+            background: rgba(255,255,255,0.1)
+            
+            box-sizing: border-box
+            overflow: hidden
+            &.input--icon
+                input
+                    padding-left: 30px
+        .form-search
+            padding: 8px 9px
+            border: none
+            outline: none
+            background: inherit
+            font-size: 12px
+    .sidebar__group
+        padding: 10px 0px
+        .sidebar__group__title
+            text-transform: uppercase
+            font-size: 12px
+            position: relative
+            padding: 8px 15px
+        .sidebar__group__lists
+            color: rgba(255,255,255,0.7)
+            .lists__item a
+                padding: 8px 10px 8px 20px
+                font-size: 13px
+                display: block
+                border-left: 3px solid transparent
+                &:hover, &.active
+                    border-left-color: #fff
+                    background: rgba(0, 0, 0, 0.2)
+                .lists__item__prefix
+                    background: rgba(0, 0, 0, 0.2)
+                    width: 20px
+                    height: 20px
+                    display: inline-block
+                    border-radius: 50%
+                    font-weight: bolc
+                    text-align: center
+                    color: #fff
+                    
+        ul
+            margin: 0px
+            padding: 0px
+        li
+            list-style-type: none
+
+    .form-control
+        padding-top: .275rem
+        padding-bottom: .275rem
+
+    .wrapper__main
+        flex: 1
+        display: flex
+        overflow: hidden
+
+    .sidebar
+        width: $sidebarWidth
+        height: 100%
+        background: $sidebarBgColor
+        color: rgba(255,255,255,0.25)
+        display: flex
+        flex-direction: column
+
+    .page
+        flex: 1
+        display: flex
+        flex-direction: column
+        .page__content
+            flex: 1
+            box-sizing: border-box
+            overflow: auto
+
+    a
+        color: inherit !important
+        text-decoration: none
+
+.form__title
+    font-size: 14px
+    font-weight: bold
+    color: #555
+    &::after
+        content: ""
+        display: block
+        border-bottom: 1px dashed #ddd
+        margin: 10px 0px
+    
+.filepond--wrapper
+    max-height: 70px
+    overflow: hidden
+    transition: max-height 0.15s ease-out
+    &:hover
+        max-height: 100% !important
+        transition: max-height 0.35s ease-in
+
+.section-footer
+    padding: 8px
+    box-sizing: border-box
+    border-top: 1px solid #ddd
+
+.pagination
+    margin: 0px !important
+    .page-item.active .page-link
+        background-color: #17a2b8
+        border-color: #17a2b8
+    
+.list__item--configdisplay
+    background: #fff
+    border-color: #ddd
+    box-shadow: 0 2px 8px 0 rgb(0 0 0 / 10%)

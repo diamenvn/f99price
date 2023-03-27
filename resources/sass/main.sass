@@ -1,0 +1,89 @@
+.box
+    border-radius: 10px
+    overflow: hidden
+    box-shadow: 0 4px 20px 0 rgb(0 0 0 / 5%)
+    margin-bottom: 30px
+    &.box--light
+        background: #fff
+        .box__header
+            background: #ddd
+            padding: 7px
+            box-sizing: border-box
+
+    .box-body
+        padding: 10px
+        box-sizing: border-box
+    .name
+        color: red
+        font-weight: bold
+        font-size: 14px
+        text-align: center
+
+    .label
+        padding: 3px
+        font-size: 12px
+        text-align: center
+        text-transform: uppercase
+        font-weight: bold
+        color: white
+        &.label-increase
+            background: #d4edda
+            color: #155724
+        &.label-decrease
+            background: #fff3cd
+            color: #856404
+
+
+tr
+    td
+        min-width: 250px
+        vertical-align: top
+        padding: 4px 10px !important
+        span
+            display: block !important
+            width: 100%
+            padding-left: 15px
+            padding-right: 15px
+            margin-left: 0px
+            margin-right: 0px
+        &:first-child
+            max-width: 70px !important
+            min-width: unset
+        .compare-split
+            padding: 3px 0px
+            &:hover
+                color: red
+                font-weight: 700
+th.gridjs-th-fixed
+    z-index: 9
+.cm-history-price
+    min-width: 400px
+    max-width: 50%
+    min-height: 250px
+    background: #fff
+    box-shadow: 0 4px 20px 0 rgb(0 0 0 / 5%)
+    border-radius: 5px
+
+.main__content__footer
+    background: #fff
+    border-radius: 7px
+    box-shadow: 0 4px 20px 0 rgb(0 0 0 / 5%)
+
+.view-mode
+    div
+        padding: 2px 7px
+        &.active, &:hover
+            background: rgba(0, 0, 0, .1)
+            border-radius: 5px
+            cursor: pointer
+
+td[data-column-id="product_name"]
+    z-index: 10 !important
+
+th[data-column-id="product_name"]
+    z-index: 11 !important
+
+[data-column-id="product_name"]
+    position: sticky
+    left: 0
+    box-shadow: 0 4px 20px 0 rgb(0 0 0 / 5%)

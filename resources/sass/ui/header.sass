@@ -1,0 +1,71 @@
+.header
+    box-shadow: 0 4px 20px 0 rgb(0 0 0 / 5%)
+    background: rgba(255, 255, 255, 1)
+    height: 48px
+    &.header--layout
+        padding: 0px 10px
+    .header__item
+        height: 100%
+        display: flex
+        align-items: center
+        padding: 0px 8px
+        box-sizing: border-box
+        .app_navigation
+            width: 24px
+            height: 24px
+            background-image: url("/assets/images/spirites.svg")
+            background-repeat: no-repeat
+            cursor: pointer
+            background-position: -1153px -28px
+
+        .header__current__db
+            border-radius: 20px
+            padding: 4px 15px
+            box-sizing: border-box
+            font-size: 12px
+            border: 1px solid #ebedf0
+            display: flex
+            align-items: center
+            justify-content: center
+            &::before
+                content: ""
+                display: block
+                background: #4ea344
+                border-radius: 50%
+                width: 7px
+                height: 7px
+                margin-right: 8px
+        
+.header__item__search
+    position: relative
+    .inp__search
+        border: 1px solid #ebedf0
+        border-radius: 3px
+        outline: none
+        padding: 5px 30px 5px 5px
+        font-size: 13px
+        color: #696969
+        min-width: 220px
+    .inp__search__icon
+        position: absolute
+        right: 10px
+        top: 2px
+        width: 24px
+        height: 24px
+        background-image: url("/assets/images/spirites.svg")
+        background-repeat: no-repeat
+        cursor: pointer
+        background-position: -987px -356px
+
+        
+
+.header__item__avatar
+    img
+        min-width: 32px
+        max-width: 32px
+        max-height: 32px
+.header__item__name
+    margin: 0px 6px
+    font-size: 14px
+    font-weight: 700
+    color: #696969

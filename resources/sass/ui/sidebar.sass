@@ -1,0 +1,132 @@
+.sidebar
+    // transition: none
+    .sidebar__title
+        font-size: 22px
+        font-weight: 700
+    &.sidebar--left
+        color: rgba(255, 255, 255, .7)
+        background: $sidebarBgColor
+        max-width: $sidebarWdith
+        min-width: $sidebarWdith
+        display: flex
+        flex-direction: column
+        &.sidebar--left--min
+            max-width: 55px
+            min-width: 55px
+            .brand_name
+                display: none
+            .sidebar__menu__item
+                span
+                    display: none
+
+    &.sidebar--right
+        min-width: 300px
+        max-width: 300px
+        background: #fff
+        color: #1c1e21
+        overflow: hidden
+        
+        &.sidebar--right--min
+            width: 0px
+            -webkit-animation: fadeOutLeft 0.5s ease-out
+            -webkit-animation-fill-mode: forwards
+        .items
+            display: flex
+            margin: 12px 0px
+            padding: 6px 1rem
+            cursor: pointer
+            user-select: none
+            align-items: center
+            &.active, &:hover
+                background: rgba(0, 0, 0, .1)
+        .item__logo_preview
+            min-width: 50px
+            max-width: 50px
+            height: 50px
+            font-size: 25px
+            display: flex
+            align-items: center
+            justify-content: center
+            img
+                width: 100%
+                height: auto
+                min-height: 100%
+                min-width: 100%
+                border-radius: 50%
+                border: 1px dashed #ddd
+                padding: 4px
+                object-fit: contain
+
+        .item__body
+            padding: 3px 10px
+            .title
+                font-weight: 700
+            .description
+                font-size: 11px
+                color: #616161
+        .item__prefix
+            width: 50px
+            min-width: 50px
+            height: 50px
+            font-size: 25px
+            display: flex
+            align-items: center
+            justify-content: center
+            border-radius: 50%
+            border: 1px dashed #ddd
+            font-weight: 700
+            text-transform: uppercase
+
+    .sidebar__logo
+        width: 100%
+        display: flex
+        align-items: center
+        justify-content: center
+        padding: 20px 0px 10px 0px
+        img
+            height: 32px
+    .sidebar__menu__lists
+        margin: 10px 0px
+        overflow: auto
+        .sidebar__menu__item
+            a
+                display: flex
+                width: 100%
+                padding: 9px 15px 9px 10px
+                box-sizing: border-box
+                align-items: center
+                border-left: 6px solid transparent
+                &:hover
+                    background: rgba(0, 0, 0, .3)
+            svg
+                color: #616164
+            &.active
+                font-weight: 700
+            .mi
+                background-image: url("/assets/images/spirites.svg")
+                background-repeat: no-repeat
+                cursor: pointer
+                &.mi-sidebar-dashboard
+                    background-position: -30px -1628px
+                &.mi-sidebar-setting
+                    background-position: -336px -1628px
+                &.mi-sidebar-cash
+                    background-position: -73px -1628px
+                &.mi-sidebar-report
+                    background-position: -547px -1628px
+                &.mi-sidebar-script
+                    background-position: -249px -1628px
+            .mi-24
+                min-width: 24px
+                max-width: 24px
+                min-height: 24px
+                max-height: 24px
+            span
+                margin-left: 5px
+            &.active
+                a
+                    background: rgba(0, 0, 0, .3)
+                    border-left-color: #2ca01c
+                    color: white
+
+        font-size: 14px
