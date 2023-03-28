@@ -20,4 +20,6 @@ Route::group(['namespace'=>'Site','prefix' => ''],function(){
     Route::post('/add_page', 'SiteHomeController@storeAddPage')->name('site.sidebar.storeAddPage');
     Route::resource('/compare', 'SiteCompareController');
     Route::resource('/setting', 'SiteSettingController');
+
+    Route::resource('/pages', 'SitePageController');
 });

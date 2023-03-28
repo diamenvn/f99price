@@ -1,14 +1,14 @@
 @extends('site.layout.app')
 
 @section('content')
-    <div class="main__content__filter">
+    {{-- <div class="main__content__filter">
         <div class="fw-700 fs-20 title">Tổng số lượng sản phẩm theo ngày</div>
     </div>
     <div class="row my-3">
         <div class="col-12">
             <div id="chart"></div>
         </div>
-    </div>
+    </div> --}}
     <div class="main__content__filter">
         <div class="title-panel">
             <div class="fw-700 fs-20 title">Danh sách sản phẩm</div>
@@ -114,7 +114,8 @@
             },
             fixedHeader: true,
             autoWidth: true,
-            height: '740px'
+            height: '440px',
+            width: '100%'
         }).render(document.getElementById("table-index-js"));
 
 

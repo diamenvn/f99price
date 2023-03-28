@@ -25,7 +25,7 @@
                 </a>
                 @endforeach
             @else
-                <div class="p-3"><span class="fs-20">Không có nhãn hàng nào cần theo dõi</span></div>
+                <div class="p-3"><span class="fs-20">Không có dữ liệu</span></div>
             @endif
             <div class="w-100 text-center p-2">
                 <div class="btn btn-success btn-sm call_ajax_modal-js" data-href="{{route('site.sidebar.add_page')}}">Thêm trang mới</div>

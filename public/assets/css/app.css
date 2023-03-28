@@ -108,6 +108,10 @@
   flex: 1;
 }
 
+.sidebar--right.d-none ~ .site-main {
+  margin-left: 55px;
+}
+
 .main-content {
   padding: 10px;
   box-sizing: border-box;
@@ -484,18 +488,30 @@ a:hover {
 }
 .sidebar.sidebar--left {
   color: rgba(255, 255, 255, 0.7);
-  background: #393a3d;
-  max-width: 182px;
-  min-width: 182px;
+  background: #4e1a54;
+  max-width: 200px;
+  min-width: 200px;
   display: flex;
   flex-direction: column;
+  position: fixed;
+  height: 100vh;
+  z-index: 999;
 }
 .sidebar.sidebar--left.sidebar--left--min {
   max-width: 55px;
   min-width: 55px;
+  transition: 0.2s;
+}
+.sidebar.sidebar--left.sidebar--left--min:hover {
+  max-width: 200px;
+  min-width: 200px;
+}
+.sidebar.sidebar--left.sidebar--left--min:hover .brand_name, .sidebar.sidebar--left.sidebar--left--min:hover .sidebar__menu__item span {
+  display: block;
 }
 .sidebar.sidebar--left.sidebar--left--min .brand_name {
   display: none;
+  white-space: nowrap;
 }
 .sidebar.sidebar--left.sidebar--left--min .sidebar__menu__item span {
   display: none;
@@ -506,6 +522,7 @@ a:hover {
   background: #fff;
   color: #1c1e21;
   overflow: hidden;
+  margin-left: 55px;
 }
 .sidebar.sidebar--right.sidebar--right--min {
   width: 0px;
@@ -573,8 +590,8 @@ a:hover {
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 20px 0px 10px 0px;
+  background: #6b2770;
+  padding: 20px 0px 20px 12px;
 }
 .sidebar .sidebar__logo img {
   height: 32px;
@@ -593,7 +610,7 @@ a:hover {
   border-left: 6px solid transparent;
 }
 .sidebar .sidebar__menu__lists .sidebar__menu__item a:hover {
-  background: rgba(0, 0, 0, 0.3);
+  background-color: #6b277080;
 }
 .sidebar .sidebar__menu__lists .sidebar__menu__item svg {
   color: #616164;
@@ -621,6 +638,9 @@ a:hover {
 .sidebar .sidebar__menu__lists .sidebar__menu__item .mi.mi-sidebar-script {
   background-position: -249px -1628px;
 }
+.sidebar .sidebar__menu__lists .sidebar__menu__item .mi.mi-sidebar-account {
+  background-position: -590px -1628px;
+}
 .sidebar .sidebar__menu__lists .sidebar__menu__item .mi-24 {
   min-width: 24px;
   max-width: 24px;
@@ -628,11 +648,12 @@ a:hover {
   max-height: 24px;
 }
 .sidebar .sidebar__menu__lists .sidebar__menu__item span {
-  margin-left: 5px;
+  margin-left: 10px;
+  white-space: nowrap;
 }
 .sidebar .sidebar__menu__lists .sidebar__menu__item.active a {
-  background: rgba(0, 0, 0, 0.3);
-  border-left-color: #2ca01c;
+  background-color: #6b277080;
+  border-left-color: #fff;
   color: white;
 }
 
@@ -991,4 +1012,8 @@ th[data-column-id=product_name] {
 }
 .table.table-custom-default td {
   vertical-align: middle;
+}
+
+table.gridjs-table {
+  width: 100%;
 }
