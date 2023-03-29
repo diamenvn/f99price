@@ -9,15 +9,15 @@
             @if (isset($brands) && count($brands) > 0)
                 @foreach ($brands as $brand)
                 <a href="{{route($sidebarRightUrl ?? 'site.home.dashboard', ['brand_id' => $brand->_id])}}" class="items sidebar__lists-items-js {{setActiveFilter(['brand_id' => $brand->_id])}}" data-id="{{$brand->_id}}">
-                    @if (isset($brand->brand_logo_url))
+                    {{-- @if (isset($brand->brand_logo_url))
                     <div class="item__logo_preview">
                         <img src="{{$brand->brand_logo_url}}" alt="">
                     </div>
-                    @else
+                    @else --}}
                     <div class="item__prefix">
                         {{$brand->brand_name[0]}}
                     </div>
-                    @endif
+                    {{-- @endif --}}
                     <div class="item__body">
                         <div class="title text-one-line">{{$brand->brand_name}}</div>
                         <div class="description text-two-line">Cập nhật lần cuối vào lúc <span class="fw-bold">{{gmdate('H:i:s',strtotime($brand->updated_at))}}</span> ngày <span class="fw-bold">{{gmdate('d-m-Y',strtotime($brand->updated_at))}}</span></div>
