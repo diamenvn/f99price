@@ -21,5 +21,5 @@ Route::group(['namespace'=>'Site','prefix' => ''],function(){
     Route::resource('/compare', 'SiteCompareController');
     Route::resource('/setting', 'SiteSettingController');
 
-    Route::resource('/pages', 'SitePageController');
+    Route::resource('/crawl_pages', 'SitePageController');
 });

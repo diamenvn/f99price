@@ -5,78 +5,91 @@ namespace App\Http\Controllers\Site;
 use App\Http\Controllers\Controller;
 use App\Services\BrandService;
 use App\Services\ResultService;
+use App\Services\CrawlSiteService;
+use App\Services\PostService;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
 class SitePageController extends Controller
 {
-    public function __construct(BrandService $brandService, ResultService $resultService)
+    public function __construct(
+        BrandService $brandService, 
+        ResultService $resultService, 
+        CrawlSiteService $crawlSiteService,
+        PostService $postService
+    )
     {
         $this->brandService = $brandService;
         $this->resultService = $resultService;
+        $this->crawlSiteService = $crawlSiteService;
+        $this->postService = $postService;
         $this->response['success'] = false;
         $this->response['msg'] = "Error";
         $this->response['data'] = [];
         $this->response['creation_time'] = time();
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
     }
 
-    public function index()
+    public function index(Request $request)
     {
+        $siteId = $request->input('_id', null);
+
+        $data['title'] = "Trang lấy dữ liệu";
+        $data['crawls'] = $this->crawlSiteService->search(['status' => 1], ['created_at' => 'DESC']);
         $data['sidebarRight'] = "";
+        $results = array();
+
+        if (isset($siteId)) {
+            $data['detail'] = $this->crawlSiteService->firstById($siteId);
+            $data['posts'] = $this->postService->search(['site_id' => $siteId]);
+            $data['today'] = $this->postService->countByIDWithStartDateEndDate($siteId, Carbon::now()->startOfDay(), Carbon::now()->endOfDay());
+            $data['yesterday'] = $this->postService->countByIDWithStartDateEndDate($siteId, Carbon::now()->subDay(1)->startOfDay(), Carbon::now()->subDay(1)->endOfDay());
+            $data['month'] = $this->postService->countByIDWithStartDateEndDate($siteId, Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth());
+            $data['total'] = $this->postService->countByIDWithStartDateEndDate($siteId);
+            
+            $hour = $request["hour"] ?? 10;
+            $hour = (int)$hour;
+            
+            for ($i = 0; $i < $hour; $i++) {
+                $startDate = Carbon::now()->subHour($i)->startOfHour();
+                $endDate = Carbon::now()->subHour($i)->endOfHour();
+
+                $result['data'] = $this->postService->countByIDWithStartDateEndDate($siteId, $startDate, $endDate);
+                $result['hour'] = Carbon::now()->subHour($i)->format("H");
+                array_push($results, $result);
+            }
+
+        }
+        $data['charts'] = array_reverse($results);
         return view('site.page.index', $data);
     }
 
-    public function dashboard(Request $request)
+    public function create()
     {
-        $brandId = $request->input('brand_id', null);
-        $results = array();
-        if (isset($brandId)) {
-            $data['brand'] = $this->brandService->firstById($brandId);
-            $day = $request["day"] ?? 7;
-            $day = (int)$day;
-
-            for ($i = 0; $i < $day; $i++) {
-                $startDate = Carbon::now()->subDay($i)->startOfDay();
-                $endDate = Carbon::now()->subDay($i)->endOfDay();
-
-
-                $result['data'] = $this->resultService->getBetweenDate($brandId, $startDate, $endDate)->count();
-                $result['date'] = Carbon::now()->subDay($i)->format("d/m/Y");
-                array_push($results, $result);
-            }
-            $data['rows'] = $this->resultService->getByBrandId($brandId);
-        }
-        $data['title'] = "Trang chủ";
-        $data['charts'] = array_reverse($results);
-        $data['brands'] = $this->brandService->getByCondition(['status' => 1], ['created_at' => 'DESC'])->load('items');
-
-        return view('site.dashboard.index', $data);
+        return view('site.page.form');
     }
 
-    public function AddPage()
+    public function store(Request $request)
     {
-        return view('site.sidebar.add_page');
-    }
+        $domain = $request->domain ?? null;
 
-    public function storeAddPage(Request $request)
-    {
-        $request = $request->only(['brand_name', 'brand_url', 'brand_logo_url']);
-        foreach ($request as $key => $value) {
-            if ($key == 'brand_logo_url') continue;
-            if (!isset($value) && empty($value)) {
-                $this->response['msg'] = "params " . $key . " is require";
-                return response()->json($this->response);
-            }
+        if (!$domain) {
+            $this->response['msg'] = "Domain không được bỏ trống";
+            return response()->json($this->response);
         }
 
-        $request['status'] = 1;
-        $create = $this->brandService->create($request);
-        if ($create) {
-            $this->response['msg'] = "Thành công";
-            $this->response['success'] = true;
-            $this->response['data'] = $create;
-        }
+        $insert['domain'] = $domain;
+        $insert['status'] = 1;
 
-        return response()->json($this->response);
+        $this->crawlSiteService->create($insert);
+
+        return view('site.page.form');
     }
+    
+    public function edit($siteId)
+    {
+        $data['detail'] = $this->crawlSiteService->firstById($siteId);
+        return view('site.page.form', $data);
+    }
+
 }

@@ -82,7 +82,6 @@
     height: 0px;
     -webkit-user-select: none;
     -moz-user-select: none;
-    -ms-user-select: none;
     user-select: none;
     will-change: transform, opacity;
 }
@@ -106,7 +105,6 @@
     text-decoration: underline;
     -webkit-text-decoration-skip: ink;
     text-decoration-skip-ink: auto;
-    -webkit-text-decoration-color: #a7a4a4;
     text-decoration-color: #a7a4a4;
     cursor: pointer;
 }
@@ -221,7 +219,6 @@
     pointer-events: none;
     -webkit-user-select: none;
     -moz-user-select: none;
-    -ms-user-select: none;
     user-select: none;
 }
 .filepond--file-info * {
@@ -259,7 +256,6 @@
     pointer-events: none;
     -webkit-user-select: none;
     -moz-user-select: none;
-    -ms-user-select: none;
     user-select: none;
 }
 .filepond--file-status * {
@@ -314,7 +310,6 @@
     pointer-events: none;
     -webkit-user-select: none;
     -moz-user-select: none;
-    -ms-user-select: none;
     user-select: none;
     z-index: 3;
 }
@@ -377,7 +372,6 @@
 }
 
 [data-filepond-item-state='processing-complete'] .filepond--action-revert-item-processing svg {
-    -webkit-animation: fall 0.5s 0.125s linear both;
     animation: fall 0.5s 0.125s linear both;
 }
 
@@ -407,52 +401,22 @@
 [data-filepond-item-state*='invalid'] .filepond--file-wrapper,
 [data-filepond-item-state*='error'] .filepond--panel,
 [data-filepond-item-state*='error'] .filepond--file-wrapper {
-    -webkit-animation: shake 0.65s linear both;
     animation: shake 0.65s linear both;
 }
 
 [data-filepond-item-state*='busy'] .filepond--progress-indicator svg {
-    -webkit-animation: spin 1s linear infinite;
     animation: spin 1s linear infinite;
 }
 
 /**
  * States
  */
-@-webkit-keyframes spin {
-    0% {
-        transform: rotateZ(0deg);
-    }
-    100% {
-        transform: rotateZ(360deg);
-    }
-}
 @keyframes spin {
     0% {
         transform: rotateZ(0deg);
     }
     100% {
         transform: rotateZ(360deg);
-    }
-}
-
-@-webkit-keyframes shake {
-    10%,
-    90% {
-        transform: translateX(-0.0625em);
-    }
-    20%,
-    80% {
-        transform: translateX(0.125em);
-    }
-    30%,
-    50%,
-    70% {
-        transform: translateX(-0.25em);
-    }
-    40%,
-    60% {
-        transform: translateX(0.25em);
     }
 }
 
@@ -476,42 +440,19 @@
     }
 }
 
-@-webkit-keyframes fall {
-    0% {
-        opacity: 0;
-        transform: scale(0.5);
-        -webkit-animation-timing-function: ease-out;
-        animation-timing-function: ease-out;
-    }
-    70% {
-        opacity: 1;
-        transform: scale(1.1);
-        -webkit-animation-timing-function: ease-in-out;
-        animation-timing-function: ease-in-out;
-    }
-    100% {
-        transform: scale(1);
-        -webkit-animation-timing-function: ease-out;
-        animation-timing-function: ease-out;
-    }
-}
-
 @keyframes fall {
     0% {
         opacity: 0;
         transform: scale(0.5);
-        -webkit-animation-timing-function: ease-out;
         animation-timing-function: ease-out;
     }
     70% {
         opacity: 1;
         transform: scale(1.1);
-        -webkit-animation-timing-function: ease-in-out;
         animation-timing-function: ease-in-out;
     }
     100% {
         transform: scale(1);
-        -webkit-animation-timing-function: ease-out;
         animation-timing-function: ease-out;
     }
 }
@@ -567,7 +508,6 @@
     transition: opacity 0.15s ease-out;
 }
 .filepond--item[data-drag-state] {
-    cursor: -webkit-grab;
     cursor: grab;
 }
 .filepond--item[data-drag-state] > .filepond--panel {
@@ -575,7 +515,6 @@
     box-shadow: 0 0 0 rgba(0, 0, 0, 0);
 }
 .filepond--item[data-drag-state='drag'] {
-    cursor: -webkit-grabbing;
     cursor: grabbing;
 }
 .filepond--item[data-drag-state='drag'] > .filepond--panel {

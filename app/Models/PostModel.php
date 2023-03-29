@@ -3,10 +3,10 @@
 namespace App\Models;
 use Jenssegers\Mongodb\Eloquent\Model as EloquentModel;
 
-class CrawlSiteModel extends EloquentModel
+class PostModel extends EloquentModel
 {
     protected $connection = 'mongodb';
-    protected $collection = 'crawl_sites';
+    protected $collection = 'posts';
     protected $primaryKey = '_id';
 
     /**

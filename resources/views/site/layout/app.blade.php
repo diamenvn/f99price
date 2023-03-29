@@ -14,12 +14,9 @@
             <header class="header header--layout d-flex justify-content-between">
                 <div class="header__left d-flex align-items-center">
                     <div class="header__item">
-                        <div class="app_navigation app_navigation-js"></div>
-                    </div>
-                    <div class="header__item">
-                        @if(isset($brand))
+                        @if(isset($detail))
                         <div class="header__current__db">
-                            Dữ liệu {{$brand->brand_name}}
+                            Dữ liệu {{$detail->domain}}
                         </div>
                         @endif
                     </div>

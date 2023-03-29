@@ -7,7 +7,7 @@
 		exports["shopdat09"] = factory();
 	else
 		root["shopdat09"] = factory();
-})(this, function() {
+})(this, () => {
 return /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
@@ -70,7 +70,6 @@ var app = {
                   dataType: 'json'
                 }).done(function (res) {
                   alert(res.msg);
-
                   if (res.success) {
                     window.location.reload();
                   }
@@ -92,7 +91,6 @@ var app = {
           dataType: 'json'
         }).done(function (res) {
           alert(res.msg);
-
           if (res.success) {
             window.location.reload();
           }
@@ -100,7 +98,6 @@ var app = {
       }).on('click', '.btn-category-add-display-view-js', function () {
         domClone = $(this).attr('data-dom-clone');
         domParent = $(this).attr('data-dom-parent');
-
         if (domClone && domParent) {
           $(domParent).append($(domClone).clone().show());
         }
@@ -108,11 +105,9 @@ var app = {
         findType = $(this).attr('data-find-type') || "this";
         domRemove = $(this).attr('event-click-remove-dom');
         alert = $(this).attr('data-alert') || false;
-
         if (alert == "true" && !confirm("Bạn có chắc chắn muốn xoá")) {
           return;
         }
-
         if (findType == "this") {
           $(domRemove).remove();
         } else {
@@ -120,13 +115,11 @@ var app = {
         }
       }).on('click', '.submit_form-js', function () {
         form = $(this).attr('data-form') || null;
-
         if (form) {
           $(form).submit();
         }
       }).on('click', '.app_navigation-js', function () {
         get = localStorage.getItem('sidebar-right-display');
-
         if (get == "hide") {
           $('.sidebar--right-js').css('display', 'block');
           localStorage.setItem("sidebar-right-display", "show");
@@ -136,7 +129,8 @@ var app = {
             localStorage.setItem("sidebar-right-display", "hide");
           });
         }
-      }).on('click', '.sidebar__lists-items-js', function () {// animateCSS('.main-content', 'fadeOutDown').then((message) => {
+      }).on('click', '.sidebar__lists-items-js', function () {
+        // animateCSS('.main-content', 'fadeOutDown').then((message) => {
         //     // localStorage.setItem("sidebar-right-display", "hide");
         //     $('.main-content').hide();
         // });
@@ -164,13 +158,11 @@ var app = {
           app.config.modal.destroy();
         }
       });
-
       if (!!confirm) {
         app.config.modal.addFooterBtn('Xác nhận', 'tingle-btn tingle-btn--primary', function () {
           confirm();
         });
       }
-
       app.config.modal.open();
     },
     activeUpload: function activeUpload() {
@@ -213,7 +205,6 @@ var app = {
             var request = new XMLHttpRequest();
             request.open('POST', window.uploadURI);
             request.setRequestHeader("X-CSRF-TOKEN", document.querySelector('meta[name="csrf-token"]').getAttribute("content"));
-
             request.onload = function () {
               if (request.status >= 200 && request.status < 300) {
                 load(JSON.parse(request.responseText).data);
@@ -221,14 +212,15 @@ var app = {
                 error('Error');
               }
             };
+            request.send(formData);
 
-            request.send(formData); // Should expose an abort method so the request can be cancelled
-
+            // Should expose an abort method so the request can be cancelled
             return {
               abort: function abort() {
                 // This function is entered if the user has tapped the cancel button
-                request.abort(); // Let FilePond know the request has been cancelled
+                request.abort();
 
+                // Let FilePond know the request has been cancelled
                 _abort();
               }
             };
@@ -237,14 +229,12 @@ var app = {
       });
       $("[data-type='currency']").simpleMoneyFormat();
       get = localStorage.getItem('sidebar-right-display');
-
       if (get == "hide") {
         $('.sidebar--right-js').hide();
       }
     }
   }
 };
-
 openModal = function openModal() {
   var html = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
   var size = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "600px";
@@ -253,7 +243,6 @@ openModal = function openModal() {
   modal.find('.modal-body').html(html);
   modal.modal();
 };
-
 app.init();
 
 /***/ }),
@@ -351,7 +340,8 @@ __webpack_require__.r(__webpack_exports__);
 /******/ 				}
 /******/ 				if(fulfilled) {
 /******/ 					deferred.splice(i--, 1)
-/******/ 					result = fn();
+/******/ 					var r = fn();
+/******/ 					if (r !== undefined) result = r;
 /******/ 				}
 /******/ 			}
 /******/ 			return result;
@@ -406,19 +396,21 @@ __webpack_require__.r(__webpack_exports__);
 /******/ 			// add "moreModules" to the modules object,
 /******/ 			// then flag all "chunkIds" as loaded and fire callback
 /******/ 			var moduleId, chunkId, i = 0;
-/******/ 			for(moduleId in moreModules) {
-/******/ 				if(__webpack_require__.o(moreModules, moduleId)) {
-/******/ 					__webpack_require__.m[moduleId] = moreModules[moduleId];
+/******/ 			if(chunkIds.some((id) => (installedChunks[id] !== 0))) {
+/******/ 				for(moduleId in moreModules) {
+/******/ 					if(__webpack_require__.o(moreModules, moduleId)) {
+/******/ 						__webpack_require__.m[moduleId] = moreModules[moduleId];
+/******/ 					}
 /******/ 				}
+/******/ 				if(runtime) var result = runtime(__webpack_require__);
 /******/ 			}
-/******/ 			if(runtime) var result = runtime(__webpack_require__);
 /******/ 			if(parentChunkLoadingFunction) parentChunkLoadingFunction(data);
 /******/ 			for(;i < chunkIds.length; i++) {
 /******/ 				chunkId = chunkIds[i];
 /******/ 				if(__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
 /******/ 					installedChunks[chunkId][0]();
 /******/ 				}
-/******/ 				installedChunks[chunkIds[i]] = 0;
+/******/ 				installedChunks[chunkId] = 0;
 /******/ 			}
 /******/ 			return __webpack_require__.O(result);
 /******/ 		}

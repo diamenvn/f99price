@@ -43,11 +43,14 @@
             -webkit-animation-fill-mode: forwards
         .items
             display: flex
-            margin: 12px 0px
-            padding: 6px 1rem
+            // margin: 12px 0px
+            padding: 12px 1rem
             cursor: pointer
             user-select: none
             align-items: center
+            border-bottom: 1px solid #f0f0f0
+            &:last-child 
+                border-bottom: none !important
             &.active, &:hover
                 background: rgba(0, 0, 0, .1)
         .item__logo_preview
@@ -71,15 +74,16 @@
         .item__body
             padding: 3px 10px
             .title
+                font-size: 13px
                 font-weight: 700
             .description
-                font-size: 11px
+                font-size: 10px
                 color: #616161
         .item__prefix
-            width: 50px
-            min-width: 50px
-            height: 50px
-            font-size: 25px
+            width: 30px
+            min-width: 30px
+            height: 30px
+            font-size: 20px
             display: flex
             align-items: center
             justify-content: center
