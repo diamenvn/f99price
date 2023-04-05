@@ -47,7 +47,8 @@ class RequestService
         return new Client([
             'timeout' => 5,
             'cookies' => true,
-            'http_errors' => false
+            'http_errors' => false,
+            'verify' => false
         ]);
     }
 }

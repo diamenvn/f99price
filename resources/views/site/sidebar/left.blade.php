@@ -17,9 +17,9 @@
             <div class="sidebar__menu__item {{setActive('config.index')}}">
                 <a href="{{route('config.index', ['brand_id' => app('request')->input('brand_id')])}}"><div class="mi mi-24 mi-sidebar-setting"></div><span>Cấu hình</span></a>
             </div>
-            <div class="sidebar__menu__item {{setActive('setting.index')}}">
+            {{-- <div class="sidebar__menu__item {{setActive('setting.index')}}">
                 <a href="{{route('setting.index', ['brand_id' => app('request')->input('brand_id')])}}"><div class="mi mi-24 mi-sidebar-account"></div><span>Tài khoản</span></a>
-            </div>
+            </div> --}}
         </div>
     </div>
 </aside>

@@ -36,6 +36,7 @@ class SitePageController extends Controller
 
         $data['title'] = "Trang lấy dữ liệu";
         $data['crawls'] = $this->crawlSiteService->search(['status' => 1], ['created_at' => 'DESC']);
+        // dd($data['crawls'][0]);
         $data['sidebarRight'] = "";
         $results = array();
 
@@ -88,6 +89,7 @@ class SitePageController extends Controller
         $insert['limit_per_day'] = $request['limit_per_day'] ?? config("app.limit_per_day");
         $insert['time_step'] = $request['time_step'] ?? config("app.time_step");
         $insert['status'] = 1;
+        $insert['running'] = 0;
         $insert['crawled_last_time'] = Carbon::now();
 
         if ($this->crawlSiteService->create($insert)) {

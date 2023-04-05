@@ -3,17 +3,21 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
-use App\Services\BrandService;
-use App\Services\ResultService;
+use App\Services\PostService;
+use App\Services\LogService;
+use App\Services\CrawlSiteService;
+use App\Services\SyncSiteService;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
 class SiteHomeController extends Controller
 {
-    public function __construct(BrandService $brandService, ResultService $resultService)
+    public function __construct(PostService $postService, LogService $logService, CrawlSiteService $crawlSiteService, SyncSiteService $syncSiteService)
     {
-        $this->brandService = $brandService;
-        $this->resultService = $resultService;
+        $this->postService = $postService;
+        $this->logService = $logService;
+        $this->crawlSiteService = $crawlSiteService;
+        $this->syncSiteService = $syncSiteService;
         $this->response['success'] = false;
         $this->response['msg'] = "Error";
         $this->response['data'] = [];
@@ -22,65 +26,28 @@ class SiteHomeController extends Controller
 
     public function index()
     {
-        $brand = $this->brandService->getByCondition(['status' => 1], ['_id' => 'DESC']);
-        if ($brand && isset($brand[0])) {
-            return redirect()->route('site.home.dashboard', ['brand_id' => $brand[0]->_id]);
-        }else{
-            return redirect()->route('site.home.dashboard');
-        }
+        return redirect()->route('site.home.dashboard');
     }
 
     public function dashboard(Request $request)
     {
-        $brandId = $request->input('brand_id', null);
-        $results = array();
-        if (isset($brandId)) {
-            $data['brand'] = $this->brandService->firstById($brandId);
-            $day = $request["day"] ?? 7;
-            $day = (int)$day;
+        $data['count_today'] = $this->postService->countByIDWithStartDateEndDate(null, Carbon::now()->startOfDay(), Carbon::now()->endOfDay());
+        $data['count_synced'] = $this->sumByField($this->logService->getByCondition([]), "count_post_sync_success");
+        $data['count_month'] = $this->postService->countByIDWithStartDateEndDate(null, Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth());
+        $data['count_total'] = $this->postService->countByIDWithStartDateEndDate(null);
+        $data['sidebarRight'] = "d-none";
+        $data['title'] = "Thống kê";
 
-            for ($i = 0; $i < $day; $i++) {
-                $startDate = Carbon::now()->subDay($i)->startOfDay();
-                $endDate = Carbon::now()->subDay($i)->endOfDay();
-
-
-                $result['data'] = $this->resultService->getBetweenDate($brandId, $startDate, $endDate)->count();
-                $result['date'] = Carbon::now()->subDay($i)->format("d/m/Y");
-                array_push($results, $result);
-            }
-            $data['rows'] = $this->resultService->getByBrandId($brandId);
+        $data['charts'] = $this->crawlSiteService->getByCondition([], ['crawled_last_time' => 'DESC'])->load('config.log')->take(5);
+        $data['recentSync'] = $this->syncSiteService->getByCondition([], ['crawled_last_time' => 'DESC'])->load('config.log')->take(5);
+        foreach ($data['charts'] as $key => $value) {
+            $data['charts'][$key]['count'] = $this->postService->countByIDWithStartDateEndDate($value->_id);
         }
-        $data['title'] = "Trang chủ";
-        $data['charts'] = array_reverse($results);
-        $data['brands'] = $this->brandService->getByCondition(['status' => 1], ['created_at' => 'DESC'])->load('items');
-
         return view('site.dashboard.index', $data);
     }
 
-    public function AddPage()
+    public function sumByField($rows, $field) 
     {
-        return view('site.sidebar.add_page');
-    }
-
-    public function storeAddPage(Request $request)
-    {
-        $request = $request->only(['brand_name', 'brand_url', 'brand_logo_url']);
-        foreach ($request as $key => $value) {
-            if ($key == 'brand_logo_url') continue;
-            if (!isset($value) && empty($value)) {
-                $this->response['msg'] = "params " . $key . " is require";
-                return response()->json($this->response);
-            }
-        }
-
-        $request['status'] = 1;
-        $create = $this->brandService->create($request);
-        if ($create) {
-            $this->response['msg'] = "Thành công";
-            $this->response['success'] = true;
-            $this->response['data'] = $create;
-        }
-
-        return response()->json($this->response);
+        return array_sum(array_keys($rows->keyBy($field)->toArray()));
     }
 }

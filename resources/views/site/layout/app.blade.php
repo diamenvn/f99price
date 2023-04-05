@@ -36,6 +36,7 @@
                     </div>
                 </div>
             </header>
+            
             <section class="main-content flex-1 overflow-auto d-flex flex-column container-fluid">
                 @yield('content')
             </section>

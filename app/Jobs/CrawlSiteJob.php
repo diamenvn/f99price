@@ -20,7 +20,7 @@ class CrawlSiteJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     private $url;
     private $crawlSiteService;
-
+    public $timeout = 3600;   
     /*
      * Execute the job.
      *
@@ -51,7 +51,6 @@ class CrawlSiteJob implements ShouldQueue
             try {
                 $url = $site->domain . config("app.endpoint_crawl") . "?page=" . $currentPage;
                 $contents = json_decode($this->getData($client, $url));
-
                 if (!$this->isExistPost($contents)) {
                     // hết content, break while
                     $isWhileLoop = false;
@@ -59,11 +58,14 @@ class CrawlSiteJob implements ShouldQueue
                 }
 
                 foreach ($contents as $content) {
-                    $crawledLastTimeNew = $content->date > $crawledLastTimeNew ? $content->date : $crawledLastTimeNew;
+                    $contentDate = Carbon::parse($content->date);
+                    
+                    $crawledLastTimeNew = $contentDate > $crawledLastTimeNew ? $contentDate : $crawledLastTimeNew;
 
-                    if ($content->date <= $crawledLastTime) { $isWhileLoop = false; continue; }
+                    if ($contentDate <= $crawledLastTime) { $isWhileLoop = false; continue; }
 
                     $data = $this->createDataInsert($site, $content);
+
                     $create = $postService->create($data);
                     if ($create) {
                         $countSuccess += 1;
@@ -71,6 +73,7 @@ class CrawlSiteJob implements ShouldQueue
                 }
                 $currentPage += 1;
             } catch (\Throwable $th) {
+                TelegramService::sendMessage($site->domain . " Error: " . $th->getMessage());
                 $crawledLastTimeNew = Carbon::now();
                 $isWhileLoop = false;
                 break;
@@ -123,7 +126,8 @@ class CrawlSiteJob implements ShouldQueue
         $client = new Client([
             'timeout' => 5,
             'cookies' => true,
-            'http_errors' => false
+            'http_errors' => false,
+            'verify' => false
         ]);
 
         return $client;

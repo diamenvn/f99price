@@ -33,11 +33,14 @@ class SyncContentJob implements ShouldQueue
     public function handle(CrawlSiteService $crawlSiteService, ConfigService $configService, TelegramService $telegramService, LogService $logService, PostService $postService, ApiService $apiService)
     {
         $config = $configService->firstRunConfig();
+        $config = $configService->firstByCondition(['status' => 1], ['created_at' => 'DESC']);
+    
         if (!$config) return;
         $contents = $postService->getByCondition(['site_id' => $config->crawl_site_id], ['post_date', 'ASC'])->take(self::LIMIT);
+        
         $maxTimeContent = $config->log->lasted_post_time->toDateTime();
         $authenticateBase64 = $config->syncSite->base64_authenticate;
-        $countErr = 0;
+        $countErr = $countSuccess = 0;
         try {
             foreach ($contents as $content) {
                 $params = json_encode([
@@ -53,8 +56,10 @@ class SyncContentJob implements ShouldQueue
                 if ($postDateCarbon < $config->log->lasted_post_time->toDateTime()) continue;
 
                 $push = $apiService->syncContent($config->syncSite->domain, $params, $authenticateBase64);
-               
-                if (!$push) {
+                
+                if ($push) {
+                    $countSuccess += 1;
+                } else {
                     $countErr += 1;
                 }
             }
@@ -67,7 +72,7 @@ class SyncContentJob implements ShouldQueue
         ]);
         $logService->updateById($config->log->_id, [
             'lasted_post_time' => $maxTimeContent,
-            'count_post_sync_success' => $config->log->count_post_sync_success + (self::LIMIT - $countErr),
+            'count_post_sync_success' => $config->log->count_post_sync_success + ($countSuccess),
             'count_post_sync_error' => $config->log->count_post_sync_error + $countErr,
         ]);
 
@@ -106,7 +111,8 @@ class SyncContentJob implements ShouldQueue
         $client = new Client([
             'timeout' => 5,
             'cookies' => true,
-            'http_errors' => false
+            'http_errors' => false,
+            'verify' => false
         ]);
 
         return $client;

@@ -14,7 +14,7 @@
                     </div>
                     <div class="item__body">
                         <div class="title">{{$crawl->domain}}</div>
-                        <div class="description">Lấy dữ liệu lần cuối vào lúc <span class="fw-bold co-red">{{gmdate('H:i:s',strtotime($crawl->crawled_last_time ?? $crawl->created_at))}}</span> ngày <span class="fw-bold co-red">{{gmdate('d-m-Y',strtotime($crawl->updated_at))}}</span></div>
+                        <div class="description">Lấy dữ liệu lần cuối vào lúc <span class="fw-bold co-red">{{gmdate('H:i:s',strtotime($crawl->crawled_last_time ?? $crawl->created_at)+date("Z"))}}</span> ngày <span class="fw-bold co-red">{{gmdate('d-m-Y',strtotime($crawl->crawled_last_time ?? $crawl->created_at)+date("Z"))}}</span></div>
                     </div>
                 </a>
                 @endforeach

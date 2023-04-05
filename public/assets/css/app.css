@@ -2,7 +2,7 @@
 @import url(https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap);
 @import url(https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap);
 .header {
-  box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.05);
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
   background: rgb(255, 255, 255);
   height: 48px;
 }
@@ -91,7 +91,7 @@ body h5 {
 .wrapper {
   min-height: 100vh;
   max-height: 100vh;
-  font-family: "Open Sans", sans-serif;
+  font-family: "Roboto", sans-serif !important;
   background: #f4f5f8;
 }
 .wrapper.wrapper--layout {
@@ -667,7 +667,7 @@ a:hover {
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
-  font-family: "Roboto", sans-serif;
+  font-family: "Roboto", sans-serif !important;
 }
 .wrapper__admin .header {
   background: #fff;
@@ -1085,4 +1085,117 @@ table.gridjs-table {
 .btn-primary--custom:hover {
   background: #4e1a54;
   cursor: pointer;
+}
+
+body .bg-gradient-cosmic {
+  background: linear-gradient(to right, rgb(142, 45, 226), rgb(74, 0, 224)) !important;
+}
+body .bg-gradient-ibiza {
+  background: #ee0979;
+  background: linear-gradient(45deg, #ee0979, #ff6a00) !important;
+}
+body .bg-gradient-ohhappiness {
+  background: #00b09b;
+  background: linear-gradient(45deg, #00b09b, #96c93d) !important;
+}
+body .bg-gradient-kyoto {
+  background: linear-gradient(to right, rgb(247, 151, 30), rgb(255, 210, 0)) !important;
+}
+body .radius-10 {
+  border-radius: 10px;
+}
+body .card {
+  background: #fff !important;
+  border: 0 solid transparent;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 6px 0 rgba(218, 218, 253, 0.65), 0 2px 6px 0 rgba(206, 206, 238, 0.54);
+}
+body .card-body {
+  padding: 0.85rem 1rem;
+}
+body .intro-x:nth-child(1) {
+  z-index: 49;
+  opacity: 0;
+  position: relative;
+  transform: translate(50px);
+  animation: 0.4s intro-x-animation ease-in-out 0.33333s;
+  animation-fill-mode: forwards;
+  animation-delay: 0.1s;
+}
+body .text-slate-500 {
+  --tw-text-opacity: 1;
+  color: rgb(100 116 139/var(--tw-text-opacity));
+}
+body .text-xs {
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+body .mt-0\.5 {
+  margin-top: 0.125rem;
+}
+body .image-fit > img {
+  position: absolute;
+  -o-object-fit: cover;
+  object-fit: cover;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+body img, body video {
+  max-width: 100%;
+  height: auto;
+}
+body .rounded-full {
+  border-radius: 9999px;
+}
+body .overflow-hidden {
+  overflow: hidden;
+}
+body .flex-none {
+  flex: none;
+}
+body .w-10 {
+  width: 2.5rem;
+}
+body .h-10 {
+  height: 2.5rem;
+}
+body .image-fit {
+  position: relative;
+}
+@media screen and (min-width: 992px) {
+  body .primary-menu .navbar {
+    position: fixed;
+    top: 60px;
+    right: 0;
+    left: 0;
+    z-index: 9;
+    border-bottom: 1px solid #e4e4e4;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+    background: #ffffff;
+    padding: 10px 1.5rem;
+  }
+  body .align-items-center {
+    align-items: center !important;
+  }
+}
+@media (min-width: 992px) {
+  body .navbar-expand-lg {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+  }
+}
+body .offcanvas {
+  position: fixed;
+  bottom: 0;
+  z-index: var(--bs-offcanvas-zindex);
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+  color: var(--bs-offcanvas-color);
+  visibility: hidden;
+  background-color: var(--bs-offcanvas-bg);
+  background-clip: padding-box;
+  outline: 0;
+  transition: var(--bs-offcanvas-transition);
 }

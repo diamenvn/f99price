@@ -98,7 +98,9 @@ class PostService
     public function countByIDWithStartDateEndDate($id, $startDate = null, $endDate = null)
     {
         $results = $this->postModel;
-        $results = $results->where('site_id', $id);
+        if (isset($id)) {
+            $results = $results->where('site_id', $id);
+        }
         if (isset($startDate)) {
             $results = $results->where('created_at', '>=', $startDate);
         }
