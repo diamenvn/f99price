@@ -22,4 +22,6 @@ Route::group(['namespace'=>'Site','prefix' => ''],function(){
     Route::resource('/setting', 'SiteSettingController');
 
     Route::resource('/crawl_pages', 'SitePageController');
+    Route::resource('/sync_pages', 'SiteSyncPageController');
+    Route::resource('/config', 'SiteConfigController');
 });

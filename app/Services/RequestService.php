@@ -13,15 +13,28 @@ class RequestService
         $this->client = $this->newClient();
     }
 
-    public function get($url, $params = [], $header = [])
+    public function get($url, $params = [], $headers = [])
     {
         try {
-            $get = $this->client->get($url . "?" . http_build_query($params), [
-                'headers' => [
-                    'Ocp-Apim-Subscription-Key' => 'b03c9f82fb0e4926904b5b36070bc39d'
-                ],
+            $get = $this->client->get($url, [
+                'headers' => $headers,
             ]);
             return $get;
+        } catch (\Throwable $th) {
+            TelegramService::sendMessage($th->getMessage());
+        }
+
+        return false;
+    }
+
+    public function post($url, $params = [], $headers = [])
+    {
+        try {
+            $send = $this->client->request('POST', $url, [
+                'headers' => $headers, 'body' => $params
+            ]);
+
+            return $send;
         } catch (\Throwable $th) {
             TelegramService::sendMessage($th->getMessage());
         }
@@ -32,7 +45,7 @@ class RequestService
     private function newClient()
     {
         return new Client([
-            'timeout' => 30,
+            'timeout' => 5,
             'cookies' => true,
             'http_errors' => false
         ]);

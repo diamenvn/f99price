@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Jobs\CrawlJob;
+use App\Jobs\CrawlSiteJob;
+use App\Jobs\SyncContentJob;
 use App\Services\ApiService;
 
 class ApiCrawlController extends Controller
@@ -17,9 +18,17 @@ class ApiCrawlController extends Controller
         $this->response['creation_time'] = time();
     }
 
-    public function start()
+    public function crawlSite()
     {
-        CrawlJob::dispatch();
+        CrawlSiteJob::dispatch();
+        $this->response['success'] = true;
+        $this->response['msg'] = "Hoàn thành";
+        return response()->json($this->response);
+    }
+
+    public function syncContent()
+    {
+        SyncContentJob::dispatch();
         $this->response['success'] = true;
         $this->response['msg'] = "Hoàn thành";
         return response()->json($this->response);

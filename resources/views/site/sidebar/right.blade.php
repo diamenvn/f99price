@@ -1,6 +1,6 @@
 <aside class="sidebar sidebar--right sidebar--right-js {{$sidebarRight ?? ''}}">
     <div class="sidebar__container d-flex flex-column h-100">
-        <div class="sidebar__title p-2 px-3">Danh sách trang web</div>
+        <div class="sidebar__title p-2 px-3">Danh sách trang web lấy dữ liệu</div>
         <div class="p-2 px-3 header__item__search mb-0">
             <input type="text" placeholder="Tìm kiếm..." class="inp__search w-100">
             <div class="inp__search__icon" style="top: 11px; right: 27px"></div>
@@ -10,11 +10,11 @@
                 @foreach ($crawls as $crawl)
                 <a href="{{route($sidebarRightUrl ?? 'crawl_pages.index', ['_id' => $crawl->_id])}}" class="items sidebar__lists-items-js {{setActiveFilter(['_id' => $crawl->_id])}}" data-id="{{$crawl->_id}}">
                     <div class="item__prefix">
-                        {{$crawl->domain[0]}}
+                        {{str_replace("https://", "", str_replace("http://", "", $crawl->domain))[0]}}
                     </div>
                     <div class="item__body">
                         <div class="title">{{$crawl->domain}}</div>
-                        <div class="description">Lấy dữ liệu lần cuối vào lúc <span class="fw-bold co-red">{{gmdate('H:i:s',strtotime($crawl->updated_at))}}</span> ngày <span class="fw-bold co-red">{{gmdate('d-m-Y',strtotime($crawl->updated_at))}}</span></div>
+                        <div class="description">Lấy dữ liệu lần cuối vào lúc <span class="fw-bold co-red">{{gmdate('H:i:s',strtotime($crawl->crawled_last_time ?? $crawl->created_at))}}</span> ngày <span class="fw-bold co-red">{{gmdate('d-m-Y',strtotime($crawl->updated_at))}}</span></div>
                     </div>
                 </a>
                 @endforeach

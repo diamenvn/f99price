@@ -15,4 +15,6 @@ class PostModel extends EloquentModel
      * @var array
      */
     protected $guarded = [];
+
+    protected $dates = ['post_date', 'post_modified', 'created_at', 'updated_at'];
 }

@@ -1,54 +1,38 @@
 @extends('site.layout.app')
 
 @section('content')
-    {{-- <div class="main__content__filter d-flex justify-content-between">
-        <div class="title-panel">
-            <div class="fw-700 fs-20 title"><a target="_blank" href="{{$detail->domain}}">{{$detail->domain}}</a></div>
-            <div class="fs-12 sub-title">Tìm thấy {{ isset($posts) ? count($posts) : 0 }} bài viết</div>
+    @if (isset($detail))
+        <div class="main__content__filter d-flex justify-content-between">
+            <div class="title-panel">
+                <div class="fw-700 fs-20 title"><a target="_blank" href="{{$detail->domain}}">{{$detail->domain}}</a></div>
+                <div class="fs-12 sub-title">Tìm thấy {{ isset($posts) ? $posts->total() : 0 }} bài viết</div>
+            </div>
+            <div class="text-center p-2">
+                <div class="btn btn-primary--custom btn-sm call_ajax_modal-js" data-href="{{route('crawl_pages.edit', $detail->_id)}}">Chỉnh sửa</div>
+            </div>
         </div>
-        <div class="text-center p-2">
-            <div class="btn btn-primary--custom btn-sm call_ajax_modal-js" data-href="{{route('crawl_pages.edit', $detail->_id)}}">Chỉnh sửa</div>
+        <div class="mb-3 mt-2">
+            @include('site.page.overview')
         </div>
-    </div> --}}
-    <div class="mb-3 mt-2">
-        @include('site.page.overview')
-    </div>
-    <div class="my-3">
-        <div class="view-mode-item view-mode-gird row" style="display: none">
-            @if (isset($rows) && count($rows) > 0)
-                @foreach ($rows as $row)
-                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-12">
-                    <div class="box box--light">
-                        <div class="box-header">
-                            <img src="{{$row->thumbnail_url}}" alt="" class="w-100">
-                        </div>
-                        <div class="box-body">
-                            <div class="name text-two-line">{{$row->name}}</div>
-                        </div>
-                        <div class="box-footer">
-                            <div class="label label-increase">{{is_numeric($row->price) ? number_format($row->price) : '-'}}đ</div>
-                        </div>
-                    </div>
+        <div class="my-3">
+            <div class="view-mode-item view-mode-list p-1 row">
+                <div class="col-12">
+                    <div class="title-primary">Thống kê theo giờ</div>
+                    <div id="chart"></div>
                 </div>
-                @endforeach
-            @endif
-        </div>
-        <div class="view-mode-item view-mode-list p-1 row">
-            <div class="col-12">
-                <div class="title-primary">Thống kê theo giờ</div>
-                <div id="chart"></div>
+            </div>
+            <div class="view-mode-item view-mode-list row">
+                <div class="col-12">
+                    <div class="title-primary">Danh sách bài viết</div>
+                    <div class="table-page" id="table-index-js"></div>
+                </div>
             </div>
         </div>
-        <div class="view-mode-item view-mode-list row">
-            <div class="col-12">
-                <div class="title-primary">Danh sách bài viết</div>
-                <div id="table-index-js"></div>
-                {{-- @if (isset($posts))
-                    {{ $posts->links() }}
-                @endif --}}
-            </div>
+    @else
+        <div class="d-flex justify-content-center h-100 align-items-center">
+            <h4 class="p-2 text-center">Chọn 1 trang bên cạnh để xem chi tiết</h4>
         </div>
-    </div>
+    @endif
 @endsection
 
 
@@ -89,21 +73,11 @@
         chart.render();
     </script>
     <script>
-        data = [];
-        @foreach ($posts ?? [] as $key => $row)
-            data.push([
-                '{{$key + 1}}',
-                '{{$row->post_link}}',
-                '{{$row->post_content}}',
-                '{{gmdate("d-m-Y H:i:s",strtotime($row->updated_at))}}',
-                gridjs.html('')
-            ]);
-        @endforeach
 
         new gridjs.Grid({
             columns: [{
                 name: 'STT',
-                width: '100px',
+                width: '70px',
                 formatter: (cell) => gridjs.html(`<div class="text-left">${cell}</div>`)
             }, {
                 name: 'Link bài viết',
@@ -114,12 +88,27 @@
                 formatter: (cell) => gridjs.html(`<div class="text-two-line">${cell}</div>`)
             }, {
                 name: 'Ngày đăng',
-                width: '130px'
-            }, {
-                name: 'Hành động',
-                width: '130px'
+                width: '180px',
+                formatter: (cell) => new Date(cell).toLocaleString()
             }],
-            data: data,
+            // data: data,
+            pagination: {
+                limit: 15,
+                server: {
+                    url: (prev, page, limit) => `${prev}&page=${page}`
+                }
+            },
+            server: {
+                url: "{{route('api.page.get_all', ['site_id' => $detail->_id ?? null])}}",
+                then: res => res.data.data.map((post, index) => [index + 1, post.post_link, post.post_content, post.post_date]),
+                handle: (res) => {
+                    if (res.status === 404 || res.status === 500) return {data: []};
+                    if (res.ok) return res.json();
+                    
+                    throw Error('oh no :(');
+                },
+                total: res => res.data.total
+            },
             fixedHeader: true,
             autoWidth: true,
             resizable: true,

@@ -15,4 +15,6 @@ class CrawlSiteModel extends EloquentModel
      * @var array
      */
     protected $guarded = [];
+
+    protected $dates = ['updated_at', 'created_at', 'crawled_last_time'];
 }

@@ -123,6 +123,10 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
+    'limit_per_day' => 100000,
+    'sync_time_step' => 30,
+    'time_step' => 30,
+    'endpoint_crawl' => env('ENDPOINT_CRAWL_CONTENT'),
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers

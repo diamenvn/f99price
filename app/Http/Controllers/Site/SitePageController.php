@@ -46,7 +46,6 @@ class SitePageController extends Controller
             $data['yesterday'] = $this->postService->countByIDWithStartDateEndDate($siteId, Carbon::now()->subDay(1)->startOfDay(), Carbon::now()->subDay(1)->endOfDay());
             $data['month'] = $this->postService->countByIDWithStartDateEndDate($siteId, Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth());
             $data['total'] = $this->postService->countByIDWithStartDateEndDate($siteId);
-            
             $hour = $request["hour"] ?? 10;
             $hour = (int)$hour;
             
@@ -71,25 +70,60 @@ class SitePageController extends Controller
 
     public function store(Request $request)
     {
-        $domain = $request->domain ?? null;
+        $request = $request->only(['domain', 'limit_per_day', 'time_step']);
+        $domain = $request['domain'] ?? null;
 
         if (!$domain) {
             $this->response['msg'] = "Domain không được bỏ trống";
             return response()->json($this->response);
         }
 
+        $firstByDomain = $this->crawlSiteService->firstByCondition(['domain' => $domain]);
+        if (isset($firstByDomain)) {
+            $this->response['msg'] = "Domain này đã tồn tại";
+            return response()->json($this->response);
+        }
+
         $insert['domain'] = $domain;
+        $insert['limit_per_day'] = $request['limit_per_day'] ?? config("app.limit_per_day");
+        $insert['time_step'] = $request['time_step'] ?? config("app.time_step");
         $insert['status'] = 1;
+        $insert['crawled_last_time'] = Carbon::now();
 
-        $this->crawlSiteService->create($insert);
+        if ($this->crawlSiteService->create($insert)) {
+            $this->response['success'] = true;
+            $this->response['msg'] = "Tạo thành công";
+        }
 
-        return view('site.page.form');
+        return response()->json($this->response);
     }
     
     public function edit($siteId)
     {
         $data['detail'] = $this->crawlSiteService->firstById($siteId);
         return view('site.page.form', $data);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request = $request->only(['limit_per_day', 'time_step']);
+
+        $firstByDomain = $this->crawlSiteService->firstById($id);
+        if (!isset($firstByDomain)) {
+            $this->response['msg'] = "Domain này không tồn tại";
+            return response()->json($this->response);
+        }
+
+        $update['limit_per_day'] = $request['limit_per_day'] ?? config("app.limit_per_day");
+        $update['time_step'] = $request['time_step'] ?? config("app.time_step");
+        $update['status'] = 1;
+        
+        if ($this->crawlSiteService->update($firstByDomain, $update)) {
+            $this->response['success'] = true;
+            $this->response['msg'] = "Cập nhật thành công";
+        }
+
+        return response()->json($this->response);
     }
 
 }

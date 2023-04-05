@@ -2,12 +2,12 @@
 
 namespace App\Services;
 
-use App\Models\LogModel;
+use App\Models\SyncLogModel;
 
 class LogService
 {
     protected $model;
-    public function __construct(LogModel $model)
+    public function __construct(SyncLogModel $model)
     {
         $this->model = $model;
     }
@@ -82,6 +82,17 @@ class LogService
         $results = $target->save();
         return $results;
     }
+
+    public function updateById($id, $data)
+    {
+        $target = $this->model->where('_id', $id)->first();
+        foreach ($data as $key => $value) {
+            $target[$key] = $value;
+        }
+        $results = $target->save();
+        return $results;
+    }
+
 
     public function remove($target)
     {

@@ -15,9 +15,13 @@
                 <div class="header__left d-flex align-items-center">
                     <div class="header__item">
                         @if(isset($detail))
-                        <div class="header__current__db">
-                            Dữ liệu {{$detail->domain}}
-                        </div>
+                            <div class="header__current__db">
+                                Dữ liệu {{$detail->domain}}
+                            </div>
+                        @elseif (isset($title))
+                            <div class="header__current__db">
+                                {{$title}}
+                            </div>
                         @endif
                     </div>
                 </div>

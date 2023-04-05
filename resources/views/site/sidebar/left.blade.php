@@ -11,11 +11,11 @@
             <div class="sidebar__menu__item {{setActive('crawl_pages.index')}}">
                 <a href="{{route('crawl_pages.index', ['brand_id' => app('request')->input('brand_id')])}}"><div class="mi mi-24 mi-sidebar-script"></div><span>Lấy dữ liệu</span></a>
             </div>
-            <div class="sidebar__menu__item {{setActive('syncs.index')}}">
-                <a href="{{route('crawl_pages.index', ['brand_id' => app('request')->input('brand_id')])}}"><div class="mi mi-24 mi-sidebar-script"></div><span>Nhận dữ liệu</span></a>
+            <div class="sidebar__menu__item {{setActive('sync_pages.index')}}">
+                <a href="{{route('sync_pages.index', ['brand_id' => app('request')->input('brand_id')])}}"><div class="mi mi-24 mi-sidebar-script"></div><span>Đẩy dữ liệu</span></a>
             </div>
-            <div class="sidebar__menu__item {{setActive('compare.index')}}">
-                <a href="{{route('compare.index', ['brand_id' => app('request')->input('brand_id')])}}"><div class="mi mi-24 mi-sidebar-setting"></div><span>Cấu hình</span></a>
+            <div class="sidebar__menu__item {{setActive('config.index')}}">
+                <a href="{{route('config.index', ['brand_id' => app('request')->input('brand_id')])}}"><div class="mi mi-24 mi-sidebar-setting"></div><span>Cấu hình</span></a>
             </div>
             <div class="sidebar__menu__item {{setActive('setting.index')}}">
                 <a href="{{route('setting.index', ['brand_id' => app('request')->input('brand_id')])}}"><div class="mi mi-24 mi-sidebar-account"></div><span>Tài khoản</span></a>

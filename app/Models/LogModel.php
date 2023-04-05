@@ -21,4 +21,6 @@ class LogModel extends EloquentModel
 
     ];
 
+    protected $dates = ['lasted_post_time', 'created_at', 'updated_at'];
+
 }
