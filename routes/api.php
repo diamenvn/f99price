@@ -34,6 +34,8 @@ Route::group(['namespace'=>'Api'],function(){
     Route::group(['prefix' => 'cronjob'], function () {
         Route::any('/crawl_site', 'ApiCrawlController@crawlSite')->name('api.crawl.crawl_site');
         Route::any('/sync_content', 'ApiCrawlController@syncContent')->name('api.crawl.sync_content');
+        Route::any('/remove_content', 'ApiCrawlController@removeContent')->name('api.crawl.remove_content');
+        Route::any('/check_connection', 'ApiConfigController@checkConnection')->name('api.config.check_connection');
     });
 
 });

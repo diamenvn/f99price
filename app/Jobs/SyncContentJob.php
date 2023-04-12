@@ -23,7 +23,7 @@ class SyncContentJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     private $url;
     private $crawlSiteService;
-    const LIMIT = 15;
+    const LIMIT = 20;
 
     /*
      * Execute the job.
@@ -33,11 +33,9 @@ class SyncContentJob implements ShouldQueue
     public function handle(CrawlSiteService $crawlSiteService, ConfigService $configService, TelegramService $telegramService, LogService $logService, PostService $postService, ApiService $apiService)
     {
         $config = $configService->firstRunConfig();
-        $config = $configService->firstByCondition(['status' => 1], ['created_at' => 'DESC']);
-    
         if (!$config) return;
-        $contents = $postService->getByCondition(['site_id' => $config->crawl_site_id], ['post_date', 'ASC'])->take(self::LIMIT);
-        
+        $contents = $postService->getByCondition(['site_id' => $config->crawl_site_id, 'is_remove' => null], ['post_date', 'ASC'])->take(self::LIMIT);
+
         $maxTimeContent = $config->log->lasted_post_time->toDateTime();
         $authenticateBase64 = $config->syncSite->base64_authenticate;
         $countErr = $countSuccess = 0;
@@ -53,8 +51,6 @@ class SyncContentJob implements ShouldQueue
                 $postDateCarbon = Carbon::parse($content->post_date);
                 $maxTimeContent = $postDateCarbon > $maxTimeContent ? $postDateCarbon : $maxTimeContent;
 
-                if ($postDateCarbon < $config->log->lasted_post_time->toDateTime()) continue;
-
                 $push = $apiService->syncContent($config->syncSite->domain, $params, $authenticateBase64);
                 
                 if ($push) {
@@ -63,9 +59,20 @@ class SyncContentJob implements ShouldQueue
                     $countErr += 1;
                 }
             }
+
+            try {
+                $ids = array_keys($contents->keyBy("_id")->toArray());
+                $postService->updateByArrayId($ids, [
+                    'is_remove' => 1
+                ]);
+            } catch (\Throwable $th) {
+                TelegramService::sendMessage("Có lỗi trong quá trình gắn cờ xóa dữ liệu, post_ids: " . $ids);
+            }
+            
         } catch (\Throwable $th) {
             TelegramService::sendMessage("Có lỗi trong quá trình sync dữ liệu, config_id: " . $config->_id);
         }
+
         $configService->update($config, [
             'run_last_time' => Carbon::now(),
             'run_next_time' => Carbon::now()->addMinute($config->time_step),

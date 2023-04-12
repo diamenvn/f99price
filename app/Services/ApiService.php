@@ -36,7 +36,19 @@ class ApiService
 
         $request = new RequestService();
         $get = $request->get($domain . self::PATH, [], $headers);
-        return $get->getStatusCode() == 200 ? true : false;
+        return ($get->getStatusCode() >= 200 && $get->getStatusCode() < 300) == 200 ? true : false;
+    }
+
+    public function checkConnectWordpressByAccessToken($domain, $author)
+    {
+        $headers = [
+            'Authorization' => 'Basic ' . $author,
+            'Content-type'  => "application/json",
+        ];
+
+        $request = new RequestService();
+        $get = $request->get($domain . self::PATH, [], $headers);
+        return ($get->getStatusCode() >= 200 && $get->getStatusCode() < 300) == 200 ? true : false;
     }
 
     public function syncContent($domain, $params, $author)

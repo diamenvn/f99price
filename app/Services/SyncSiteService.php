@@ -2,6 +2,7 @@
 
 namespace App\Services;
 use App\Models\SyncSiteModel;
+use Carbon\Carbon;
 
 class SyncSiteService
 {
@@ -85,5 +86,17 @@ class SyncSiteService
     public function remove($target)
     {
         return $target->delete();
+    }
+
+    public function getLastRowCheckConnectionByLimit($limit = 5)
+    {
+        $results = $this->syncSiteModel;
+        $results = $results->where("last_check_connection", null);
+        $results = $results->orWhere("last_check_connection", "<", Carbon::now());
+
+        $results = $results->orderBy("last_check_connection", "ASC");
+        
+        $results = $results->limit($limit)->get();
+        return $results;
     }
 }

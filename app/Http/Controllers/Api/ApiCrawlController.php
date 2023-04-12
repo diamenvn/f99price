@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Jobs\CrawlSiteJob;
 use App\Jobs\SyncContentJob;
+use App\Jobs\RemoveContentJob;
 use App\Services\ApiService;
 
 class ApiCrawlController extends Controller
@@ -29,6 +30,14 @@ class ApiCrawlController extends Controller
     public function syncContent()
     {
         SyncContentJob::dispatch();
+        $this->response['success'] = true;
+        $this->response['msg'] = "Hoàn thành";
+        return response()->json($this->response);
+    }
+
+    public function removeContent()
+    {
+        RemoveContentJob::dispatch();
         $this->response['success'] = true;
         $this->response['msg'] = "Hoàn thành";
         return response()->json($this->response);

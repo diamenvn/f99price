@@ -52,7 +52,7 @@ class ConfigService
         $results = $this->configModel;
         $results = $results->where('status', 1);
         $results = $results->where('run_next_time', '<=', Carbon::now());
-        $results = $results->orderBy('sync_last_time', 'ASC');
+        $results = $results->orderBy('run_last_time', 'ASC');
         $results = $results->with(['crawlSite', 'syncSite', 'log']);
         $results = $results->first();
         return $results;
@@ -82,9 +82,28 @@ class ConfigService
         return $results;
     }
 
+    public function updateBySyncSiteId($id, $data)
+    {
+        $target = $this->configModel->where('sync_site_id', $id)->first();
+        foreach ($data as $key => $value) {
+            $target[$key] = $value;
+        }
+        $results = $target->save();
+        return $results;
+    }
+
     public function remove($target)
     {
         return $target->delete();
+    }
+
+    public function isExistCrawlIdOrSyncId($crawlId, $syncId)
+    {
+        $results = $this->configModel;
+        $results = $results->where('crawl_site_id', $crawlId);
+        $results = $results->orWhere('sync_site_id', $syncId);
+        $results = $results->first();
+        return $results;
     }
 
 }

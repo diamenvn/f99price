@@ -15,7 +15,7 @@ return [
 
     'defaults' => [
         'guard' => 'web',
-        'passwords' => 'users',
+        'passwords' => 'zm_user_account',
     ],
 
     /*
@@ -38,14 +38,12 @@ return [
     'guards' => [
         'web' => [
             'driver' => 'session',
-            'provider' => 'users',
+            'provider' => 'zm_user_account',
         ],
-
         'api' => [
-            'driver' => 'token',
-            'provider' => 'users',
-            'hash' => false,
-        ],
+            'driver' => 'passport',
+            'provider' => 'zm_user_account'
+        ]
     ],
 
     /*
@@ -68,13 +66,13 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\Models\User::class,
+            'model' => App\User::class,
         ],
 
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'zm_user_account' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\CustomerModel::class,
+        ],
     ],
 
     /*

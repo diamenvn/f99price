@@ -20,6 +20,28 @@ class PostService
 
         $results = $results->orderBy("id", "DESC");
 
+        $results = $results->limit(15);
+
+        foreach ($orderBy as $key => $value) {
+            $results = $results->orderBy($key, $value);
+        }
+        
+        $results = $results->paginate(config('paginate.limit'));
+        return $results;
+    }
+
+    public function searchWithNullRemove($condition = [], $orderBy = [])
+    {
+        $results = $this->postModel;
+        $results = $results->where("is_remove", null);
+        foreach ($condition as $key => $value) {
+            $results = $results->where($key, $value);
+        }
+
+        $results = $results->orderBy("id", "DESC");
+
+        $results = $results->limit(15);
+
         foreach ($orderBy as $key => $value) {
             $results = $results->orderBy($key, $value);
         }
@@ -62,7 +84,7 @@ class PostService
             $results = $results->orderBy($key, $value);
         }
         
-        $results = $results->get();
+        $results = $results->limit(30)->get();
         return $results;
     }
 
@@ -79,6 +101,26 @@ class PostService
             $target[$key] = $value;
         }
         $results = $target->save();
+        return $results;
+    }
+
+    public function updateByArrayId($arrayId, $data)
+    {
+        $results = new $this->postModel;
+        $results = $results->whereIn('_id', $arrayId);
+        $results = $results->update($data);
+        return $results;
+    }
+
+    public function removeByCondition($condition)
+    {
+        $results = $this->postModel;
+        foreach ($condition as $key => $value) {
+            $results = $results->where($key, $value);
+        }
+
+    
+        $results = $results->delete();
         return $results;
     }
 

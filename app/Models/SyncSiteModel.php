@@ -16,7 +16,7 @@ class SyncSiteModel extends EloquentModel
      */
     protected $guarded = [];
 
-    protected $dates = ['updated_at', 'created_at'];
+    protected $dates = ['updated_at', 'created_at', 'last_check_connection'];
 
     public function config()
     {

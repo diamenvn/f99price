@@ -61,7 +61,7 @@ class SiteConfigController extends Controller
         $crawlId = $request['crawl_site_id'];
 
         if (isset($syncId) && isset($crawlId)) {
-            $exist = $this->configService->firstByCondition(['crawl_site_id' => $crawlId, 'sync_site_id' => $syncId]);
+            $exist = $this->configService->isExistCrawlIdOrSyncId($crawlId, $syncId);
             if ($exist) {
                 $this->response['msg'] = "Kết nối này đã tồn tại";
                 return response()->json($this->response);

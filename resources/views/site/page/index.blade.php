@@ -23,7 +23,7 @@
             </div>
             <div class="view-mode-item view-mode-list row">
                 <div class="col-12">
-                    <div class="title-primary">Danh sách bài viết</div>
+                    <div class="title-primary">Danh sách bài viết đang chờ đồng bộ</div>
                     <div class="table-page" id="table-index-js"></div>
                 </div>
             </div>

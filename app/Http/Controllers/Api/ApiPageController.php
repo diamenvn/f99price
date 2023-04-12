@@ -28,7 +28,7 @@ class ApiPageController extends Controller
             return response()->json($this->response, 500);
         }
 
-        $get = $this->postService->search(['site_id' => $siteId], ['post_date' => 'DESC']);
+        $get = $this->postService->searchWithNullRemove(['site_id' => $siteId], ['post_date' => 'DESC']);
         $this->response['success'] = true;
         $this->response['msg'] = "Hoàn thành";
         $this->response['data'] = $get;

@@ -1199,3 +1199,200 @@ body .offcanvas {
   outline: 0;
   transition: var(--bs-offcanvas-transition);
 }
+
+.box-sizing, .icon, .navbar .navbar-item .text, .navbar .navbar-item {
+  box-sizing: border-box;
+}
+
+.border-none {
+  border: none !important;
+}
+
+.pointer, .sidebar .sidebar-item, .icon, .navbar .user, .navbar .navbar-item {
+  cursor: pointer;
+}
+
+.co-default, .navbar .navbar-item .time-expire {
+  color: #868686;
+}
+
+.user-select, .icon, .navbar .user {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+
+.hover-default, .sidebar .sidebar-item:hover, .icon:hover, .navbar .user:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.full-height-vh {
+  height: 100vh;
+}
+
+.main.main--layout {
+  min-height: 100vh;
+}
+.main .layout__bg-wrapper {
+  background-image: url("/assets/images/bg.jpg");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+body {
+  background-color: #eee;
+  color: #3c4858;
+  font-size: 13px;
+  font-family: "Roboto", sans-serif;
+}
+
+.navbar {
+  padding: 0px;
+  background-color: white;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1);
+  justify-content: flex-start;
+}
+.navbar .navbar-brand {
+  background-color: #e5e5e5;
+  margin-right: 0px;
+  width: 80px;
+  min-width: 80px;
+}
+.navbar .navbar-menu {
+  width: calc(100% - 80px);
+}
+.navbar .navbar-item {
+  padding: 0px 8px;
+  font-size: 12px;
+  height: 100%;
+}
+.navbar .navbar-item .text {
+  padding: 2px 0px;
+}
+.navbar .user {
+  font-size: 14px;
+  height: 100%;
+  padding: 0px 10px;
+}
+.navbar > div {
+  height: 50px;
+}
+
+.sidebar-width {
+  width: 80px;
+  min-width: 80px;
+}
+
+#logo {
+  background-image: url(https://vtask.net/img/vtask-logo-app.png);
+  background-repeat: no-repeat;
+  width: 40px;
+  height: 40px;
+  background-size: cover;
+  align-self: center;
+}
+
+.icon {
+  font-size: 20px;
+  height: 100%;
+  padding: 4px 20px;
+}
+.sidebar {
+  float: left;
+  font-size: 13px;
+}
+.sidebar .sidebar-style {
+  height: 100%;
+}
+.sidebar .first-sidemenu {
+  width: 80px;
+  min-width: 80px;
+  height: 100%;
+  color: white;
+  background: linear-gradient(#0cb3ff, #0084D1);
+}
+.sidebar .second-sidemenu {
+  width: 200px;
+  min-width: 200px;
+  height: 100%;
+  background-color: #fff;
+}
+.sidebar .second-sidemenu .slide-item {
+  display: flex;
+  align-items: center;
+  padding: 7px;
+  font-size: 14px;
+  color: #191919;
+  border-bottom: 0;
+}
+.sidebar .sidebar-item {
+  width: 100%;
+  padding: 15px 0px;
+  box-sizing: border-box;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  text-align: center;
+  display: inline-block;
+}
+.sidebar .sidebar-item i {
+  font-size: 28px;
+}
+.sidebar .sidebar-item div {
+  margin-top: 5px;
+}
+.sidebar .tab-menu-content {
+  padding: 20px 20px 0px 20px;
+  box-sizing: border-box;
+}
+
+main {
+  display: flex;
+  flex-direction: row;
+}
+
+.main {
+  width: 100%;
+  height: 100%;
+  float: right;
+}
+
+.app-content {
+  height: calc(100vh - 50px);
+  box-sizing: border-box;
+}
+.app-content .section {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 0px 0px;
+}
+.app-content .main-body {
+  height: calc(100vh - 50px - 100px);
+  overflow: auto;
+}
+.app-content .card-header img {
+  width: 100%;
+  height: 220px;
+  margin: 0 auto;
+  max-height: 200px;
+}
+.app-content .card-body {
+  padding: 10px 15px;
+}
+.app-content .card-body .badge {
+  font-size: 100%;
+}
+
+.card .card-header {
+  background: none;
+}
+.card .card-title {
+  font-size: 15px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  color: #212229;
+}
+.card .card-title:only-child {
+  margin-bottom: 0px;
+}

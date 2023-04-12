@@ -13,13 +13,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['namespace'=>'Site','prefix' => ''],function(){
+Route::get('/login', 'Site\SiteAuthController@login')->name('auth.login');
+Route::post('/login', 'Site\SiteAuthController@postLogin')->name('auth.postLogin');
+
+Route::group(['namespace'=>'Site','prefix' => '', 'middleware' => 'auth.site'],function(){
+    // Route::get('/login', 'SiteHomeController@index')->name('site.home');
     Route::get('/', 'SiteHomeController@index')->name('site.home');
     Route::get('/dashboard', 'SiteHomeController@dashboard')->name('site.home.dashboard');
     Route::get('/add_page', 'SiteHomeController@AddPage')->name('site.sidebar.add_page');
     Route::post('/add_page', 'SiteHomeController@storeAddPage')->name('site.sidebar.storeAddPage');
     Route::resource('/compare', 'SiteCompareController');
     Route::resource('/setting', 'SiteSettingController');
+    Route::resource('/accounts', 'SiteAccountController');
 
     Route::resource('/crawl_pages', 'SitePageController');
     Route::resource('/sync_pages', 'SiteSyncPageController');
