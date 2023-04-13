@@ -20,17 +20,13 @@ class CustomerService
     return Auth::user();
   }
 
-  public function update($target, $replace)
+  public function update($target, $data)
   {
-    try {
-      foreach ($replace as $key => $value) {
-        $target->$key = $value;
-      }
-      $target->save();
-      return $target;
-    } catch (Exception  $e) {
-      throw $e;
+    foreach ($data as $key => $value) {
+      $target[$key] = $value;
     }
+    $results = $target->save();
+    return $results;
   }
 
   public function create($data)

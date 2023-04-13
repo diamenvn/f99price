@@ -25,6 +25,12 @@
                                         <div class="col-lg-6 col-md-12 bg-white px-4 pt-3">
                                             <h4 class="card-title mb-2">Đăng nhập</h4>
                                             <p class="card-text mb-4">Để sử dụng phần mềm, bạn vui lòng đăng nhập</p><input class="form-control mb-3" name="username" placeholder="Tài khoản" type="text"><input name="password" class="form-control mb-3" placeholder="Mật khẩu" type="password">
+                                            <div class="d-flex justify-content-between mt-">
+                                                <div class="remember-me">
+                                                    <div class="custom-control custom-checkbox custom-control-inline mb-3"><input class="custom-control-input" id="customCheckboxInline1" name="customCheckboxInline1" type="checkbox"><label class="custom-control-label" for="customCheckboxInline1"> Ghi nhớ mật khẩu </label></div>
+                                                </div>
+                                                <div class="forgot-password-option"><a class="text-decoration-none text-primary" href="/register">Đăng kí tài khoản</a></div>
+                                            </div>
                                             <div class="fg-actions d-flex justify-content-end">
                                                 <div class="recover-pass">
                                                     <div class="btn btn-primary btn-login-js pointer"><a class="text-decoration-none text-white">Đăng nhập</a></div>

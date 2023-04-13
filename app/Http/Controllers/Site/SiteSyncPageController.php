@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Site;
 use App\Http\Controllers\Controller;
 use App\Services\SyncSiteService;
 use App\Services\ApiService;
+use App\Services\CustomerService;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -12,11 +13,13 @@ class SiteSyncPageController extends Controller
 {
     public function __construct(
         SyncSiteService $syncSiteService,
-        ApiService $apiService
+        ApiService $apiService,
+        CustomerService $customerService
     )
     {
         $this->syncSiteService = $syncSiteService;
         $this->apiService = $apiService;
+        $this->customerService = $customerService;
         $this->response['success'] = false;
         $this->response['msg'] = "Error";
         $this->response['data'] = [];
@@ -26,8 +29,9 @@ class SiteSyncPageController extends Controller
 
     public function index()
     {
+        $userId = $this->customerService->info()->_id;
         $data['title'] = "Đẩy dữ liệu";
-        $data['rows'] = $this->syncSiteService->search(['status' => 1], ['created_at' => 'DESC']);
+        $data['rows'] = $this->syncSiteService->search(['status' => 1, 'user_created_id' => $userId], ['created_at' => 'DESC']);
         $data['sidebarRight'] = "d-none";
 
         return view('site.sync.index', $data);

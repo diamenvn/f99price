@@ -7,6 +7,7 @@ use App\Services\BrandService;
 use App\Services\ResultService;
 use App\Services\CrawlSiteService;
 use App\Services\PostService;
+use App\Services\CustomerService;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -16,13 +17,15 @@ class SitePageController extends Controller
         BrandService $brandService, 
         ResultService $resultService, 
         CrawlSiteService $crawlSiteService,
-        PostService $postService
+        PostService $postService,
+        CustomerService $customerService
     )
     {
         $this->brandService = $brandService;
         $this->resultService = $resultService;
         $this->crawlSiteService = $crawlSiteService;
         $this->postService = $postService;
+        $this->customerService = $customerService;
         $this->response['success'] = false;
         $this->response['msg'] = "Error";
         $this->response['data'] = [];
@@ -33,10 +36,9 @@ class SitePageController extends Controller
     public function index(Request $request)
     {
         $siteId = $request->input('_id', null);
-
+        $userId = $this->customerService->info()->_id;
         $data['title'] = "Trang lấy dữ liệu";
-        $data['crawls'] = $this->crawlSiteService->search(['status' => 1], ['created_at' => 'DESC']);
-        // dd($data['crawls'][0]);
+        $data['crawls'] = $this->crawlSiteService->search(['status' => 1, 'user_created_id' => $userId], ['created_at' => 'DESC']);
         $data['sidebarRight'] = "";
         $results = array();
 
@@ -73,7 +75,7 @@ class SitePageController extends Controller
     {
         $request = $request->only(['domain', 'limit_per_day', 'time_step']);
         $domain = $request['domain'] ?? null;
-
+        $userId = $this->customerService->info()->_id;
         if (!$domain) {
             $this->response['msg'] = "Domain không được bỏ trống";
             return response()->json($this->response);
@@ -91,7 +93,8 @@ class SitePageController extends Controller
         $insert['status'] = 1;
         $insert['running'] = 0;
         $insert['crawled_last_time'] = Carbon::now();
-
+        $insert['user_created_id'] = $userId;
+        
         if ($this->crawlSiteService->create($insert)) {
             $this->response['success'] = true;
             $this->response['msg'] = "Tạo thành công";

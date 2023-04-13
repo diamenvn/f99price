@@ -26,6 +26,7 @@ Route::group(['namespace'=>'Api'],function(){
     Route::any('/compare/detail', 'ApiCompareController@detail')->name('api.compare.detail');
 
     Route::any('/fetch/f99', 'ApiCrawlController@FetchApiF99')->name('api.fetch.f99');
+    Route::any('/get_all_users', 'ApiAccountController@getAll')->name('api.account.get_all');
 
     Route::group(['prefix' => 'config'], function () {
         Route::get('/get_all', 'ApiConfigController@getAll')->name('api.config.get_all');

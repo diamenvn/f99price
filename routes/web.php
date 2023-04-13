@@ -16,6 +16,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/login', 'Site\SiteAuthController@login')->name('auth.login');
 Route::post('/login', 'Site\SiteAuthController@postLogin')->name('auth.postLogin');
 
+Route::get('/register', 'Site\SiteAuthController@register')->name('auth.register');
+Route::post('/register', 'Site\SiteAuthController@postRegister')->name('auth.postRegister');
+
 Route::group(['namespace'=>'Site','prefix' => '', 'middleware' => 'auth.site'],function(){
     // Route::get('/login', 'SiteHomeController@index')->name('site.home');
     Route::get('/', 'SiteHomeController@index')->name('site.home');

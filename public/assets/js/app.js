@@ -2110,6 +2110,9 @@ $(function () {
   $('.btn-login-js').click(function () {
     login($(this));
   });
+  $('.btn-register-js').click(function () {
+    register($(this));
+  });
   $('.login').on('keydown', function (e) {
     if (e.key === "Enter") {
       login($(e.target));
@@ -2140,6 +2143,34 @@ var login = function login(self) {
   }
   if (!!!password.val()) {
     Notify.show.error('Vui lòng điền mật khẩu');
+    return;
+  }
+  form.submit();
+};
+var register = function register(self) {
+  form = self.closest('form');
+  username = form.find('input[name="username"]');
+  email = form.find('input[name="email"]');
+  password = form.find('input[name="password"]');
+  rePassword = form.find('input[name="re-password"]');
+  if (!!!username.val()) {
+    Notify.show.error('Vui lòng điền tên tài khoản');
+    return;
+  }
+  if (!!!password.val()) {
+    Notify.show.error('Vui lòng điền mật khẩu');
+    return;
+  }
+  if (password.val() != rePassword.val()) {
+    Notify.show.error('Nhập lại mật khẩu không chính xác');
+    return;
+  }
+  if (password.val().length < 6) {
+    Notify.show.error('Mật khẩu không được ngắn hơn 6 kí tự');
+    return;
+  }
+  if (!email.val()) {
+    Notify.show.error('Email không được bỏ trống');
     return;
   }
   form.submit();
